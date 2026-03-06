@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import LogoStyle from './LogoStyle';
+import { Link } from 'react-router-dom';
 
 import { ComparisonModal } from './ComparisonModal';
 
@@ -68,12 +69,12 @@ function Home() {
         </p>
 
         <div class="flex flex-col sm:flex-row items-center justify-center gap-4 animate-text">
-          <a
-            href="/formulario"
+          <Link
+            to={'/formulario'}
             class="w-full sm:w-auto bg-(--color-amarillo) hover:bg-(--color-amarillo-hover) text-slate-950 font-bold px-8 py-4 rounded-xl transition-all yellow-shadow"
           >
             Comenzar recomendación personalizada
-          </a>
+          </Link>
           <button
             onClick={openModal}
             class="w-full sm:w-auto bg-transparent border border-slate-700 hover:border-(--color-amarillo) text-white font-semibold px-8 py-4 rounded-xl transition-all"

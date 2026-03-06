@@ -1,4 +1,4 @@
-import React from 'react';
+import { Link } from 'react-router-dom';
 
 function Ideal() {
   return (
@@ -13,9 +13,12 @@ function Ideal() {
           Comienza ahora y obtén recomendaciones en menos de 5 minutos. Sin
           compromisos, solo buen diseño.
         </p>
-        <button class="bg-(--color-amarillo) hover:bg-amarillo-hover font-bold px-12 py-5 rounded-2xl transition-all yellow-shadow hover:scale-105 active:scale-95">
+        <Link
+          to={'/formulario'}
+          class="bg-(--color-amarillo) hover:bg-amarillo-hover font-bold px-12 py-5 rounded-2xl transition-all yellow-shadow hover:scale-105 active:scale-95"
+        >
           Comenzar Ahora
-        </button>
+        </Link>
       </div>
     </section>
   );
