@@ -1,0 +1,113 @@
+@import 'tailwindcss';
+
+:root {
+  --color-amarillo: #facc15;
+  --color-azul-fondo: #020617;
+  --color-azul-claro: #0f172a;
+  --color-gris: #6e7a8d;
+  --color-blanco: #ffffff;
+  --color-amarillo-hover: #eab308;
+  --color-verde: #00b768;
+  --color-rojo: #ff4d4d;
+}
+
+body,
+html {
+  background-color: var(--color-azul-fondo);
+  color: var(--color-blanco);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* aninacion para borde boton */
+@keyframes borderMove {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 200% 50%;
+  }
+}
+
+/* animacion de moviento para icons contasnte */
+@keyframes movimiento {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+/* animacion de aperecion de elemento */
+
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  50% {
+    opacity: 0.5;
+    transform: translateY(0);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-text {
+  animation: fadeInUp 2s ease-out forwards;
+}
+
+.animate-icon {
+  animation: movimiento 3s ease-in-out infinite;
+}
+
+.animate-border {
+  background: linear-gradient(90deg, transparent, #facc15, transparent);
+
+  background-size: 200% 100%;
+  animation: borderMove 4s linear infinite;
+}
+
+.hero-gradient {
+  background: radial-gradient(circle at 50% 50%, #0f172a 0%, #020617 100%);
+}
+
+.glow-text {
+  text-shadow: 0 0 25px rgba(175, 155, 72, 0.4);
+}
+
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes progress-move {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(200%);
+  }
+}
+
+.animate-spin-slow {
+  animation: spin-slow 3s linear infinite;
+}
+
+.animate-progress {
+  animation: progress-move 1.5s ease-in-out infinite;
+}
