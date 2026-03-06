@@ -1,5 +1,5 @@
 // services/http/client.js
-const API_URL = 'http://127.0.0.1:8000/';
+const API_URL = 'https://architec-ia.onrender.com/';
 
 export const httpClient = async (endpoint, options = {}) => {
   const controller = new AbortController();
