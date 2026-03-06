@@ -10,7 +10,6 @@ import Volver from '../components/resultados/Volver';
 function Resultado() {
   const location = useLocation();
   const datos = location.state?.datos || [];
-  console.log(datos);
 
   return (
     <main className="relative flex flex-col items-center justify-center  p-6 max-w-5xl mx-auto">
