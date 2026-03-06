@@ -1,5 +1,4 @@
-import React from 'react';
-import Formulario from '../components/form/Formulario.Jsx';
+import Formulario from '../components/form/Formulario.jsx';
 import { useNavigate } from 'react-router-dom';
 import { useAgente } from '../hooks/agente';
 import { LoadingTransition } from '../components/form/LoadingTransition';
