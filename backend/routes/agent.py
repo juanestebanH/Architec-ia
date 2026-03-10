@@ -7,5 +7,5 @@ router = APIRouter()
 
 # Endpoint POST para analizar datos con el agente
 @router.post("/agente")
-def analyze(request: AgentRequest):
+async def analyze(request: AgentRequest):
     return run_agent(request.results_json)

@@ -5,7 +5,7 @@ import { LoadingTransition } from '../components/form/LoadingTransition';
 
 function Form() {
   const navigate = useNavigate();
-  const { formAgente, loading } = useAgente();
+  const { formAgente, loading, error } = useAgente();
 
   const irResultado = async (data) => {
     const response = await formAgente(data);
@@ -14,6 +14,8 @@ function Form() {
       navigate('/resultado', { state: { datos: response } });
     }
   };
+
+  if (error) console.log(error);
 
   if (loading) {
     return <LoadingTransition />;
