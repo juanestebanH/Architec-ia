@@ -1,4 +1,5 @@
 from fastapi import APIRouter
+from fastapi.concurrency import run_in_threadpool
 from schemas.agent_schema import AgentRequest
 from services.agent_service import run_agent
 
@@ -8,4 +9,5 @@ router = APIRouter()
 # Endpoint POST para analizar datos con el agente
 @router.post("/agente")
 async def analyze(request: AgentRequest):
-    return run_agent(request.results_json)
+    resultado = await run_in_threadpool(run_agent, request.results_json)
+    return resultado
