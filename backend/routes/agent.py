@@ -11,3 +11,8 @@ router = APIRouter()
 async def analyze(request: AgentRequest):
     resultado = await run_in_threadpool(run_agent, request.results_json)
     return resultado
+
+# Endpoint GET para health check / ping
+@router.get("/ping")
+async def ping():
+    return {"status": "ok", "message": "El backend está activo"}
