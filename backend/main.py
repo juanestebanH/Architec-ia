@@ -15,6 +15,11 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Ruta raíz directa para evitar el 404 cuando el bot entra a la URL base
+@app.get("/")
+async def read_root():
+    return {"status": "online", "service": "Arquitec-IA"}
+
 
 # Incluir las rutas del agente en la aplicación
 app.include_router(agent_router)

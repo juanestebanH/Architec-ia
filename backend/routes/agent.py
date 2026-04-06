@@ -14,5 +14,6 @@ async def analyze(request: AgentRequest):
 
 # Endpoint GET para health check / ping
 @router.get("/ping")
+@router.head("/ping")
 async def ping():
     return {"status": "ok", "message": "El backend está activo"}
