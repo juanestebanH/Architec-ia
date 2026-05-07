@@ -1,5 +1,6 @@
 from fastapi import APIRouter
 from fastapi.concurrency import run_in_threadpool
+from fastapi.responses import JSONResponse
 from schemas.agent_schema import AgentRequest
 from services.agent_service import run_agent
 
@@ -14,6 +15,8 @@ async def analyze(request: AgentRequest):
 
 # Endpoint GET para health check / ping
 @router.get("/ping")
-@router.head("/ping")
 async def ping():
-    return {"status": "ok", "message": "El backend está activo"}
+    return JSONResponse(
+        status_code=200,
+        content={"status": "ok", "message": "El backend está activo"}
+    )
