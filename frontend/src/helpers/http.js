@@ -27,7 +27,7 @@ export const httpClient = async (endpoint, options = {}) => {
       : null,
   };
 
-  setTimeout(() => controller.abort(), 3000);
+  setTimeout(() => controller.abort(), 30000);
 
   try {
     const res = await fetch(`${API_URL}${endpoint}`, config);
