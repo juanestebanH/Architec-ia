@@ -7,7 +7,7 @@ function Ventajas({ beneficios }) {
         <div className="bg-(--color-verde) rounded-full p-0.5 ">
           <Check className="text-(--color-azul-fondo)" />
         </div>
-        <h3 className="font-bold ">Ventajas Competetivas</h3>
+        <h3 className="font-bold ">Ventajas Competitivas</h3>
       </div>
 
       <div className="p-6">

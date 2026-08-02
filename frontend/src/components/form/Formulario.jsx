@@ -6,6 +6,7 @@ import {
   Cable,
   Monitor,
   Database,
+  MoreHorizontal,
 } from 'lucide-react';
 import Paso1 from './Paso1';
 import Paso2 from './Paso2';
@@ -17,19 +18,23 @@ import { useNavigate } from 'react-router-dom';
 function Formulario({ onSubmit }) {
   const [estadoBarra, setEstadoBarra] = useState(1);
   const navigate = useNavigate();
+  const [errores, setErrores] = useState({});
   const [form, setForm] = useState({
     app_type: null,
+    app_type_otro: '',
     business_domain: null,
-    project_size: null,
+    business_domain_otro: '',
+    deployment_environment: null,
     expected_growth: null,
     expected_traffic: null,
     team_size: null,
+    team_seniority: null,
     time_to_market: null,
-    budget_level: null,
-    scalability_importance: null,
+    infra_budget_usd: null,
+    system_integrations: [],
     performance_importance: null,
-    security_level: null,
-    availability_requirement: null,
+    availability_sla: null,
+    compliance_requirements: [],
   });
 
   // UPDATE GENÉRICO
@@ -38,28 +43,70 @@ function Formulario({ onSubmit }) {
       ...prev,
       [field]: value,
     }));
+    setErrores((prev) => ({ ...prev, [field]: false }));
   };
 
-  // VALIDACIONES CENTRALIZADAS
+  const toggle = (field, value) => {
+    setForm((prev) => {
+      const actual = Array.isArray(prev[field]) ? prev[field] : [];
+      let nuevo;
+
+      if (value === 'Ninguna') {
+        nuevo = actual.includes('Ninguna') ? [] : ['Ninguna'];
+      } else if (actual.includes(value)) {
+        nuevo = actual.filter((v) => v !== value);
+      } else {
+        nuevo = [...actual.filter((v) => v !== 'Ninguna'), value];
+      }
+
+      return { ...prev, [field]: nuevo };
+    });
+    setErrores((prev) => ({ ...prev, [field]: false }));
+  };
+
   const validations = {
-    1: ['app_type', 'business_domain'],
-    2: ['project_size', 'expected_growth', 'expected_traffic', 'team_size'],
-    3: ['time_to_market', 'budget_level', 'scalability_importance'],
-    4: ['performance_importance', 'security_level', 'availability_requirement'],
+    1: ['app_type', 'business_domain', 'deployment_environment'],
+    2: ['expected_growth', 'expected_traffic', 'team_size', 'team_seniority'],
+    3: ['time_to_market', 'infra_budget_usd', 'system_integrations'],
+    4: [
+      'performance_importance',
+      'availability_sla',
+      'compliance_requirements',
+    ],
   };
 
   // SIGUIENTE STEP (PRO)
   const next = () => {
     const campos = validations[estadoBarra];
-    const faltantes = campos.some((c) => !form[c]);
+    const nuevosErrores = {};
+    let faltantes = false;
+
+    campos.forEach((c) => {
+      const valor = form[c];
+      let vacio = Array.isArray(valor) ? valor.length === 0 : !valor;
+
+      if (!vacio && valor === 'Otro') {
+        const custom = form[`${c}_otro`];
+        vacio = !custom || !String(custom).trim();
+      }
+
+      if (vacio) {
+        nuevosErrores[c] = true;
+        faltantes = true;
+      }
+    });
+
+    setErrores(nuevosErrores);
 
     if (faltantes) {
       notificacion();
       return;
     }
 
-    if (estadoBarra < 4) setEstadoBarra((prev) => prev + 1);
-    else {
+    if (estadoBarra < 4) {
+      setErrores({});
+      setEstadoBarra((prev) => prev + 1);
+    } else {
       onSubmit(form);
     }
   };
@@ -75,55 +122,85 @@ function Formulario({ onSubmit }) {
     {
       icon: <Globe />,
       titulo: 'Web App',
-      descripcion: 'Aplicacion Web Tradicional',
+      descripcion: 'Aplicación web tradicional',
     },
     {
       icon: <Smartphone />,
       titulo: 'Mobile App',
-      descripcion: 'Aplicacion Nativa/Hibrida',
+      descripcion: 'Aplicación nativa/híbrida',
     },
     {
       icon: <Cable />,
-      titulo: 'Api',
-      descripcion: 'Api REST o GraphQL',
+      titulo: 'API',
+      descripcion: 'API REST o GraphQL',
     },
     {
       icon: <Monitor />,
       titulo: 'Desktop App',
-      descripcion: 'Aplicacion de Escritorio',
+      descripcion: 'Aplicación de escritorio',
     },
     {
       icon: <Database />,
       titulo: 'Sistema híbrido',
-      descripcion: 'Procesamientos de datos',
+      descripcion: 'Combina una app web y una móvil en un solo sistema',
+    },
+    {
+      icon: <MoreHorizontal />,
+      titulo: 'Otro',
+      descripcion: 'Otro tipo de aplicación (escríbelo)',
     },
   ];
 
   const dominios = [
     'E-commerce',
-    'Educacion',
+    'Educación',
     'Salud',
     'Finanzas',
-    'Logistica',
+    'Logística',
+    'Otro',
   ];
 
-  const tamanos = ['Pequeño', 'Mediano', 'Grande'];
   const crecimiento = ['Bajo', 'Moderado', 'Alto'];
-  const usuarios = ['1-100', '101-1000', '+1000'];
+  const usuarios = [
+    '1-100 usuarios concurrentes',
+    '101-1000 usuarios concurrentes',
+    '+1000 usuarios concurrentes',
+  ];
   const desarrolladores = ['1-2', '3-5', '+6'];
   const tiempos = [
-    'urgente (<1 mes)',
+    'Urgente (<1 mes)',
     'Normal (1-3 meses)',
-    'Sin presion (>3 meses)',
+    'Sin presión (>3 meses)',
   ];
-  const presupuestos = ['Muy limitado', 'Moderado', 'Holgado'];
-  const escalas = ['Baja', 'Media', 'Alto'];
   const velocidadesRespuesta = ['Normal', 'Importante', 'Crítica'];
-  const TiposSeguridad = ['Basico', 'Media', 'Alta'];
-  const TiposCaida = ['Aceptable', 'No aceptable', 'Crítica'];
+  const despliegues = [
+    'Cloud público',
+    'Cloud privado',
+    'On-premises',
+    'Híbrido',
+  ];
+  const integraciones = [
+    'Ninguna',
+    'ERP',
+    'APIs de terceros',
+    'Sistema legacy a migrar',
+  ];
+  const senioridades = ['Mayormente junior', 'Mixto', 'Mayormente senior'];
+  const presupuestosInfra = [
+    'Menos de 100 USD',
+    '100-500 USD',
+    '500-2000 USD',
+    'Más de 2000 USD',
+  ];
+  const cumplimientos = ['Ninguna', 'GDPR', 'HIPAA', 'PCI-DSS', 'Otra'];
+  const slas = [
+    '99% (puede tener caídas ocasionales)',
+    '99.9% (alta disponibilidad)',
+    '99.99% (crítico, casi sin downtime)',
+  ];
 
   const notificacion = () =>
-    toast.error('Faltan campos requeridos', {
+    toast.error('Completa las preguntas marcadas en rojo para continuar', {
       position: 'top-right',
       style: {
         borderRadius: '10px',
@@ -136,30 +213,37 @@ function Formulario({ onSubmit }) {
     <Paso1
       form={form}
       update={actualizar}
+      errores={errores}
       datosInput={datosInput}
       dominios={dominios}
+      despliegues={despliegues}
     />,
     <Paso2
       form={form}
       update={actualizar}
-      tamanos={tamanos}
+      errores={errores}
       crecimiento={crecimiento}
       usuarios={usuarios}
       desarrolladores={desarrolladores}
+      senioridades={senioridades}
     />,
     <Paso3
       form={form}
       update={actualizar}
+      toggle={toggle}
+      errores={errores}
       tiempos={tiempos}
-      presupuestos={presupuestos}
-      escalas={escalas}
+      presupuestosInfra={presupuestosInfra}
+      integraciones={integraciones}
     />,
     <Paso4
       form={form}
       update={actualizar}
+      toggle={toggle}
+      errores={errores}
       velocidadesRespuesta={velocidadesRespuesta}
-      TiposSeguridad={TiposSeguridad}
-      TiposCaida={TiposCaida}
+      slas={slas}
+      cumplimientos={cumplimientos}
     />,
   ];
 
@@ -198,7 +282,7 @@ function Formulario({ onSubmit }) {
             onClick={next}
             className="bg-(--color-amarillo) text-(--color-azul-fondo) font-bold py-2 px-4 rounded-lg hover:bg-(--color-amarillo-hover) cursor-pointer mt-10 "
           >
-            siguiente
+            {estadoBarra === 4 ? 'Generar recomendación' : 'Siguiente'}
           </button>
         </div>
       </div>

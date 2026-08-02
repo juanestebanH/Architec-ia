@@ -3,7 +3,7 @@ function Futuro({ recomendacion }) {
     <div className="w-full mt-12">
       <div className="flex flex-col md:flex-row gap-4 items-start md:items-center mb-4">
         <h2 className="text-2xl text-(--color-blanco) font-bold whitespace-nowrap">
-          Futura Recomendacion
+          Futura Recomendación
         </h2>
         <div className="bg-gray-900 h-0.5 w-full"></div>
       </div>

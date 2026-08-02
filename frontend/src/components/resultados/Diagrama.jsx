@@ -1,3 +1,5 @@
+import { ArrowDown } from 'lucide-react';
+
 function Diagrama({ diagramaData }) {
   return (
     <div className="w-full mt-12">
@@ -10,14 +12,24 @@ function Diagrama({ diagramaData }) {
 
       <div>
         {diagramaData?.map((diagrama, index) => (
-          <div key={index} className="flex items-center  mt-6">
-            <div className="w-12 h-12  rounded-full bg-(--color-azul-claro) text-(--color-verde) border border-(--color-verde) flex items-center justify-center shrink-0">
-              {index + 1}
+          <div key={index}>
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 rounded-full bg-(--color-azul-claro) text-(--color-verde) border border-(--color-verde) flex items-center justify-center shrink-0">
+                {index + 1}
+              </div>
+              <div className="bg-(--color-azul-claro) p-4 rounded-lg text-(--color-gris) grow">
+                {diagrama}
+              </div>
             </div>
-            <div className="bg-(--color-verde) h-0.5 w-4"></div>
-            <div className="bg-(--color-azul-claro) p-4 rounded-lg text-(--color-gris)">
-              {diagrama}
-            </div>
+
+            {index < diagramaData.length - 1 && (
+              <div className="flex justify-center my-3">
+                <div className="flex flex-col items-center">
+                  <div className="w-0.5 h-5 bg-(--color-verde)"></div>
+                  <ArrowDown className="w-5 h-5 text-(--color-verde)" />
+                </div>
+              </div>
+            )}
           </div>
         ))}
       </div>

@@ -101,7 +101,7 @@ class ArchitectAgent:
             Las respuestas representan restricciones reales del proyecto y deben tratarse como hechos.
 
             ENTRADAS DEL USUARIO (JSON)
-            {json.dumps(answers_json, indent=2)}
+            {json.dumps(answers_json.model_dump(exclude_none=True), indent=2)}
 
             TAREAS
 

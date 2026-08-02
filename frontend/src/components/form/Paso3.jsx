@@ -1,62 +1,65 @@
 import Input from './Input';
+import Pregunta from './Pregunta';
 
-function Paso3({ form, update, tiempos, presupuestos, escalas }) {
+function Paso3({
+  form,
+  update,
+  toggle,
+  tiempos,
+  presupuestosInfra,
+  integraciones,
+  errores,
+}) {
   return (
     <div>
       <h2 className="text-xl font-bold text-center mb-4">
         Restricciones reales
       </h2>
 
-      <div>
-        <h1 className="my-4 text-gray-400 font-bold">
-          ¿Qué tan rápido necesitas lanzar la primera versión?
-        </h1>
+      <Pregunta
+        titulo="¿Qué tan rápido necesitas lanzar la primera versión?"
+        error={errores.time_to_market}
+        grid="grid grid-cols-1 md:grid-cols-3"
+      >
+        {tiempos.map((tiempo) => (
+          <Input
+            key={tiempo}
+            titulo={tiempo}
+            activo={form.time_to_market === tiempo}
+            onClick={() => update('time_to_market', tiempo)}
+          />
+        ))}
+      </Pregunta>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-10">
-          {tiempos.map((tiempo) => (
-            <Input
-              key={tiempo}
-              titulo={tiempo}
-              activo={form.time_to_market === tiempo}
-              onClick={() => update('time_to_market', tiempo)}
-            />
-          ))}
-        </div>
-      </div>
+      <Pregunta
+        titulo="¿Cuál es tu presupuesto mensual de infraestructura?"
+        error={errores.infra_budget_usd}
+        grid="grid grid-cols-1 md:grid-cols-4"
+      >
+        {presupuestosInfra.map((presupuestoInfra) => (
+          <Input
+            key={presupuestoInfra}
+            titulo={presupuestoInfra}
+            activo={form.infra_budget_usd === presupuestoInfra}
+            onClick={() => update('infra_budget_usd', presupuestoInfra)}
+          />
+        ))}
+      </Pregunta>
 
-      <div>
-        <h1 className="my-4 text-gray-400 font-bold">
-          ¿Qué tan limitado es el presupuesto?
-        </h1>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-10">
-          {presupuestos.map((presupuestoActual) => (
-            <Input
-              key={presupuestoActual}
-              titulo={presupuestoActual}
-              activo={form.budget_level === presupuestoActual}
-              onClick={() => update('budget_level', presupuestoActual)}
-            />
-          ))}
-        </div>
-      </div>
-
-      <div>
-        <h1 className="my-4 text-gray-400 font-bold">
-          ¿Qué tan importante es escalar horizontalmente?
-        </h1>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-10">
-          {escalas.map((escala) => (
-            <Input
-              key={escala}
-              titulo={escala}
-              activo={form.scalability_importance === escala}
-              onClick={() => update('scalability_importance', escala)}
-            />
-          ))}
-        </div>
-      </div>
+      <Pregunta
+        titulo="¿Necesitas integrarte con sistemas existentes?"
+        error={errores.system_integrations}
+        grid="grid grid-cols-1 md:grid-cols-4"
+      >
+        {integraciones.map((integracion) => (
+          <Input
+            key={integracion}
+            titulo={integracion}
+            activo={form.system_integrations.includes(integracion)}
+            onClick={() => toggle('system_integrations', integracion)}
+          />
+        ))}
+      </Pregunta>
     </div>
   );
 }

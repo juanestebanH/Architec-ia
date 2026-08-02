@@ -1,12 +1,14 @@
 import Input from './Input';
+import Pregunta from './Pregunta';
 
 function Paso2({
   form,
   update,
-  tamanos,
   crecimiento,
   usuarios,
   desarrolladores,
+  senioridades,
+  errores,
 }) {
   return (
     <div>
@@ -14,73 +16,65 @@ function Paso2({
         Escala y crecimiento
       </h2>
 
-      <div>
-        <h1 className="my-4 text-gray-400 font-bold">
-          ¿Cómo describirías el tamaño del proyecto hoy?
-        </h1>
+      <Pregunta
+        titulo="¿Qué crecimiento esperas en los próximos 12–24 meses?"
+        error={errores.expected_growth}
+        grid="grid grid-cols-1 md:grid-cols-3"
+      >
+        {crecimiento.map((crecimiento) => (
+          <Input
+            key={crecimiento}
+            titulo={crecimiento}
+            activo={form.expected_growth === crecimiento}
+            onClick={() => update('expected_growth', crecimiento)}
+          />
+        ))}
+      </Pregunta>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-10">
-          {tamanos.map((tamanos) => (
-            <Input
-              key={tamanos}
-              titulo={tamanos}
-              activo={form.project_size === tamanos}
-              onClick={() => update('project_size', tamanos)}
-            />
-          ))}
-        </div>
-      </div>
+      <Pregunta
+        titulo="¿Cuántos usuarios concurrentes esperas?"
+        error={errores.expected_traffic}
+        grid="grid grid-cols-1 md:grid-cols-3"
+      >
+        {usuarios.map((usuarios) => (
+          <Input
+            key={usuarios}
+            titulo={usuarios}
+            activo={form.expected_traffic === usuarios}
+            onClick={() => update('expected_traffic', usuarios)}
+          />
+        ))}
+      </Pregunta>
 
-      <div>
-        <h1 className="my-4 text-gray-400 font-bold">
-          ¿Qué crecimiento esperas en los próximos 12–24 meses?
-        </h1>
+      <Pregunta
+        titulo="¿Cuántas personas desarrollan el sistema?"
+        error={errores.team_size}
+        grid="grid grid-cols-1 md:grid-cols-3"
+      >
+        {desarrolladores.map((desarrolladores) => (
+          <Input
+            key={desarrolladores}
+            titulo={desarrolladores}
+            activo={form.team_size === desarrolladores}
+            onClick={() => update('team_size', desarrolladores)}
+          />
+        ))}
+      </Pregunta>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-10">
-          {crecimiento.map((crecimiento) => (
-            <Input
-              key={crecimiento}
-              titulo={crecimiento}
-              activo={form.expected_growth === crecimiento}
-              onClick={() => update('expected_growth', crecimiento)}
-            />
-          ))}
-        </div>
-      </div>
-
-      <div>
-        <h1 className="my-4 text-gray-400 font-bold">
-          Usuarios concurrentes esperados
-        </h1>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-10">
-          {usuarios.map((usuarios) => (
-            <Input
-              key={usuarios}
-              titulo={usuarios}
-              activo={form.expected_traffic === usuarios}
-              onClick={() => update('expected_traffic', usuarios)}
-            />
-          ))}
-        </div>
-      </div>
-
-      <div>
-        <h1 className="my-4 text-gray-400 font-bold">
-          ¿Cuántas personas desarrollan el sistema?
-        </h1>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-10">
-          {desarrolladores.map((desarrolladores) => (
-            <Input
-              key={desarrolladores}
-              titulo={desarrolladores}
-              activo={form.team_size === desarrolladores}
-              onClick={() => update('team_size', desarrolladores)}
-            />
-          ))}
-        </div>
-      </div>
+      <Pregunta
+        titulo="¿Cuál es el nivel de experiencia del equipo?"
+        error={errores.team_seniority}
+        grid="grid grid-cols-1 md:grid-cols-3"
+      >
+        {senioridades.map((senioridad) => (
+          <Input
+            key={senioridad}
+            titulo={senioridad}
+            activo={form.team_seniority === senioridad}
+            onClick={() => update('team_seniority', senioridad)}
+          />
+        ))}
+      </Pregunta>
     </div>
   );
 }

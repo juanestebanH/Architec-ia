@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import Formulario from '../components/form/Formulario.jsx';
 import { useNavigate } from 'react-router-dom';
 import { useAgente } from '../hooks/agente';
@@ -5,17 +6,29 @@ import { LoadingTransition } from '../components/form/LoadingTransition';
 
 function Form() {
   const navigate = useNavigate();
-  const { formAgente, loading, error } = useAgente();
+  const { formAgente, loading } = useAgente();
+  const [errorVisible, setErrorVisible] = useState(null);
 
   const irResultado = async (data) => {
-    const response = await formAgente(data);
+    setErrorVisible(null);
 
-    if (!response?.err) {
-      navigate('/resultado', { state: { datos: response } });
+    try {
+      const response = await formAgente(data);
+
+      if (!response?.err) {
+        navigate('/resultado', { state: { datos: response } });
+        return;
+      }
+
+      setErrorVisible(
+        'No pudimos generar tu recomendación, intenta de nuevo.'
+      );
+    } catch {
+      setErrorVisible(
+        'No pudimos generar tu recomendación, intenta de nuevo.'
+      );
     }
   };
-
-  if (error) console.log(error);
 
   if (loading) {
     return <LoadingTransition />;
@@ -30,6 +43,17 @@ function Form() {
         Responde las siguientes preguntas para obtener recomendaciones
         personalizadas de arquitectura de software.
       </p>
+
+      {errorVisible && (
+        <div className="max-w-6xl mx-auto px-6 mt-6">
+          <div
+            role="alert"
+            className="bg-red-500/10 border border-red-500 text-red-500 rounded-xl p-4 text-center font-semibold"
+          >
+            {errorVisible}
+          </div>
+        </div>
+      )}
 
       <div className="max-w-6xl mx-auto px-6 mt-8">
         <Formulario onSubmit={irResultado} />

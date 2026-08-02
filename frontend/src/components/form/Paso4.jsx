@@ -1,10 +1,14 @@
 import Input from './Input';
+import Pregunta from './Pregunta';
+
 function Paso4({
   form,
   update,
+  toggle,
   velocidadesRespuesta,
-  TiposSeguridad,
-  TiposCaida,
+  slas,
+  cumplimientos,
+  errores,
 }) {
   return (
     <div>
@@ -12,56 +16,50 @@ function Paso4({
         Atributos de calidad
       </h2>
 
-      <div>
-        <h1 className="my-4 text-gray-400 font-bold">
-          ¿Qué tan crítica es la velocidad de respuesta?
-        </h1>
+      <Pregunta
+        titulo="¿Qué tan crítica es la velocidad de respuesta?"
+        error={errores.performance_importance}
+        grid="grid grid-cols-1 md:grid-cols-3"
+      >
+        {velocidadesRespuesta.map((velocidad) => (
+          <Input
+            key={velocidad}
+            titulo={velocidad}
+            activo={form.performance_importance === velocidad}
+            onClick={() => update('performance_importance', velocidad)}
+          />
+        ))}
+      </Pregunta>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-10">
-          {velocidadesRespuesta.map((velocidad) => (
-            <Input
-              key={velocidad}
-              titulo={velocidad}
-              activo={form.performance_importance === velocidad}
-              onClick={() => update('performance_importance', velocidad)}
-            />
-          ))}
-        </div>
-      </div>
+      <Pregunta
+        titulo="¿Qué disponibilidad necesita el sistema?"
+        error={errores.availability_sla}
+        grid="grid grid-cols-1 md:grid-cols-3"
+      >
+        {slas.map((sla) => (
+          <Input
+            key={sla}
+            titulo={sla}
+            activo={form.availability_sla === sla}
+            onClick={() => update('availability_sla', sla)}
+          />
+        ))}
+      </Pregunta>
 
-      <div>
-        <h1 className="my-4 text-gray-400 font-bold">
-          ¿Qué nivel de seguridad requiere el sistema?
-        </h1>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-10">
-          {TiposSeguridad.map((tipoSeguridad) => (
-            <Input
-              key={tipoSeguridad}
-              titulo={tipoSeguridad}
-              activo={form.security_level === tipoSeguridad}
-              onClick={() => update('security_level', tipoSeguridad)}
-            />
-          ))}
-        </div>
-      </div>
-
-      <div>
-        <h1 className="my-4 text-gray-400 font-bold">
-          ¿El sistema puede caer?
-        </h1>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-10">
-          {TiposCaida.map((caidas) => (
-            <Input
-              key={caidas}
-              titulo={caidas}
-              activo={form.availability_requirement === caidas}
-              onClick={() => update('availability_requirement', caidas)}
-            />
-          ))}
-        </div>
-      </div>
+      <Pregunta
+        titulo="¿Aplica alguna normativa de cumplimiento?"
+        error={errores.compliance_requirements}
+        grid="grid grid-cols-1 md:grid-cols-5"
+      >
+        {cumplimientos.map((cumplimiento) => (
+          <Input
+            key={cumplimiento}
+            titulo={cumplimiento}
+            activo={form.compliance_requirements.includes(cumplimiento)}
+            onClick={() => toggle('compliance_requirements', cumplimiento)}
+          />
+        ))}
+      </Pregunta>
     </div>
   );
 }

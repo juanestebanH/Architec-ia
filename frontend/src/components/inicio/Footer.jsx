@@ -23,7 +23,7 @@ function Footer() {
           </a>
         </div>
         <p class="text-sm text-(--color-gris)">
-          © 2024 ArchitectAI. Todos los derechos reservados.
+          © {new Date().getFullYear()} ArchitectAI. Todos los derechos reservados.
         </p>
       </div>
     </footer>

@@ -14,7 +14,7 @@ function LogoStyle() {
         </span>
 
         <p className="text-(--color-gris) font-semibold tracking-wider">
-          ArchitectIa
+          ArchitectAI
         </p>
       </div>
     </div>
